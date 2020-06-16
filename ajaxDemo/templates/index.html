@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<style>
+    .mtop{
+    margin:8%}
+    .box{
+    border: solid 1px #ddd;
+    padding: 5%;
+    box-shadow: -1px -1px 10px 0px #4CAF50;
+    border-radius: 14px;
+    }
+</style>
+<body>
+<div class="mtop">
+
+    <div class="w-25 m-auto box">
+
+        <form method="post" id="saveform">
+            {% csrf_token %}
+            <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name" required>
+            <input type="text" name="mobile" id="mobile" class="form-control" placeholder="Enter Mobile" required>
+
+            <br>
+            <button type="button"   class="btn btn-success">Save</button>
+        </form>
+        <hr>
+        <div class="btn btn-primary m-auto w-100 "><span class="display-1"> {{tload}}</span> Time Page loaded</div>
+    </div>
+
+</div>
+</body>
+<script>
+    $(document).ready(function(){
+    $("#saveform").submit(function(){
+        name =$("#name").val();  //read input name value
+        mobile =$("#mobile").val();
+        csrfmiddlewaretoken =$("input[name=csrfmiddlewaretoken]").val();// csrf token read
+        $.ajax({
+        url:"{% url 'saveform'%}", //send data page name
+        type:"post", // type get or post
+        data:{'name':name,csrfmiddlewaretoken:csrfmiddlewaretoken,'mobile':mobile},//pass data to server
+        success:function(data){
+            alert(data);// response data
+        }
+
+        });
+    });
+
+    });
+</script>
+</html>
